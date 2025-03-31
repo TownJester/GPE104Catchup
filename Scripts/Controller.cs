@@ -6,6 +6,8 @@ public class Controller : MonoBehaviour
 {
     public Mover mover;
 
+    public ShootBullet ShootBullet;
+
     public float speed;
     public float turnSpeed;
 
@@ -13,6 +15,10 @@ public class Controller : MonoBehaviour
     public KeyCode moveDown;
     public KeyCode moveLeft;
     public KeyCode moveRight;
+
+    public KeyCode Shoot;
+    public AudioSource ShootingAudio;
+    public AudioSource MoveEffect;
 
     // This will store the value Shift
     public KeyCode incrementalMovementEnable;
@@ -26,12 +32,17 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        mover = GetComponent<Mover>();
+        ShootBullet = GetComponent<ShootBullet>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(Shoot)){
+            ShootingAudio.Play();
+            ShootBullet.PewPew();
+        }
         if (Input.GetKeyDown(disableSpriteGameObject))
         {
             gameObject.SetActive(false);
@@ -52,23 +63,27 @@ public class Controller : MonoBehaviour
         {
             if (Input.GetKey(moveUp))
             {
-                // Move up
                 mover.MoveUp(speed);
+                MoveEffect.Play();
+
             }
             if (Input.GetKey(moveDown))
             {
-                // Move down
                 mover.MoveDown(speed);
+                MoveEffect.Play();
+
             }
             if (Input.GetKey(moveLeft))
             {
-                // Move left
                 mover.RotateClockwise(turnSpeed);
+                 MoveEffect.Play();
+
             }
             if (Input.GetKey(moveRight))
             {
-                // Move right
                 mover.RotateCounterclockwise(turnSpeed);
+                 MoveEffect.Play();
+
             }
         }
         else if (Input.GetKey(incrementalMovementEnable))

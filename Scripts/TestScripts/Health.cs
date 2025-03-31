@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public float currentHealth;
-    public float maxHealth;
+
+    public float CurrentHealth;
+    public float MaxHealth;
+    public AstroHealthBar AstroHealthBar;
 
     public Death deathComponent;
 
@@ -23,19 +25,28 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
-        currentHealth = currentHealth + amount;
+        CurrentHealth = CurrentHealth + amount;
 
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+
+        if (AstroHealthBar != null){
+            AstroHealthBar.ChangeFillAmount();
+        }
     }
 
     public void TakeDamage(float amount)
     {
-        currentHealth = currentHealth - amount;
+        CurrentHealth = CurrentHealth - amount;
 
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
 
-        if (currentHealth <= 0)
+        if (AstroHealthBar != null){
+            AstroHealthBar.ChangeFillAmount();
+        }
+
+        if (CurrentHealth <= 0)
         {
+
             // Die
             deathComponent.Die();
         }
@@ -43,7 +54,7 @@ public class Health : MonoBehaviour
 
     public bool IsAlive()
     {
-        if (currentHealth > 0)
+        if (CurrentHealth > 0)
         {
             return true;
         }
